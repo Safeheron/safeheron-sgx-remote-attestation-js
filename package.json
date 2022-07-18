@@ -1,0 +1,64 @@
+{
+  "name": "@rr/js-mpc",
+  "version": "0.0.9",
+  "description": "MPC ECDSA in js",
+  "keywords": [
+    "ECDSA",
+    "MPC"
+  ],
+  "homepage": "https://github.com/istring/js-mpc",
+  "bugs": {
+    "url": "https://github.com/istring/js-mpc/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:istring/js-mpc"
+  },
+  "license": "MIT",
+  "author": "Max<hezong@renrenbit.com>",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "browser": {
+    "buffer": false
+  },
+  "scripts": {
+    "lint": "standardx",
+    "test": "npm run lint && npm run unit",
+    "unit": "mocha --reporter=spec --require test/hooks.js test/*-test.js"
+  },
+  "devDependencies": {
+    "@safeheron/crypto-rand": "^1.0.1",
+    "babel-eslint": "^10.0.3",
+    "mocha": "^8.2.1",
+    "standardx": "^5.0.0"
+  },
+  "dependencies": {
+    "@fidm/x509": "^1.2.1",
+    "@rr/bs58check": "^2.1.3",
+    "@safeheron/crypto-ecies": "^0.7.1",
+    "@safeheron/crypto-utils": "^0.3.0",
+    "assert": "^2.0.0",
+    "blakejs": "^1.1.0",
+    "bn.js": "^4.11.9",
+    "bs58check": "^2.1.2",
+    "coininfo": "^5.1.0",
+    "commander": "^7.1.0",
+    "crypto-js": "3.3.0",
+    "elliptic": "^6.5.3",
+    "hash.js": "^1.1.7",
+    "protobufjs": "^6.10.2",
+    "typescript": "^4.0.5"
+  },
+  "standardx": {
+    "parser": "babel-eslint",
+    "env": [
+      "mocha"
+    ]
+  },
+  "publishConfig": {
+    "registry": "http://maven-346260445.ap-east-1.elb.amazonaws.com/repository/npm-hosted/"
+  }
+}
