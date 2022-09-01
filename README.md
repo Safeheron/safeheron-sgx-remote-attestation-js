@@ -42,9 +42,9 @@ The example is below:
 
 # Content of Verification
 
-<center><img src = "./doc/Remote%20Attestation%20Report.png"><div>Figure 1.report structrue</div></center>
+![img](doc/Remote%20Attestation%20Report.png)
 
-As shown in the Figure 1, the contents needed to be verified are:
+As shown in the figure above, the contents needed to be verified are:
 * The `report data` from App report and QE report;
 * `Quote Signature`;
 * `QE Report Signature`;
