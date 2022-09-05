@@ -48,7 +48,7 @@ As shown in the figure above, the contents needed to be verified are:
 * The `report data` from App report and QE report;
 * `Quote Signature`;
 * `QE Report Signature`;
-* The cert chain in `Certification Data`, the cert chain is made up by PCK Cert, Processor Cert and SGX Root Cert;
+* The cert chain in `Certification Data`, the cert chain is made up by **PCK Cert**, **Processor Cert** and **SGX Root Cert**;
 
 
 # Process of Verification
