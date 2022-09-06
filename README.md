@@ -8,7 +8,8 @@
 # Build & Run
 
 ```shell
-$ npm ci
+$ npm install 
+$ npm run build 
 $ npm run test
 ```
 # Usage
