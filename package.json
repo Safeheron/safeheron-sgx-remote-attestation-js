@@ -1,0 +1,52 @@
+{
+  "name": "sgx-arweave-client-js",
+  "version": "0.0.1",
+  "description": "A demo to give a verification of TEE report",
+  "keywords": [
+    "Arweave"
+  ],
+  "homepage": "https://github.com/Safeheron/sgx-arweave-client-js",
+  "bugs": {
+    "url": "https://github.com/Safeheron/sgx-arweave-client-js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Safeheron/sgx-arweave-client-js.git"
+  },
+  "license": "",
+  "files": [
+    "index.js",
+    "data/data.json"
+  ],
+  "browser": {
+    "buffer": false
+  },
+  "scripts": {
+    "lint": "standardx",
+    "prepublish": "npm run build",
+    "build": "rm -fr ./dist && tsc -p tsconfig.json",
+    "test": "rm -fr ./test-dist && tsc -p tsconfig.test.json && mocha ./test-dist/*"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "babel-eslint": "^10.0.3",
+    "mocha": "^9.2.2",
+    "standardx": "^5.0.0",
+    "ts-node": "^10.7.0"
+  },
+  "dependencies": {
+    "@fidm/x509": "^1.2.1",
+    "@safeheron/crypto-ecies": "^1.0.0",
+    "@safeheron/crypto-utils": "^1.0.1",
+    "assert": "^2.0.0",
+    "bn.js": "^4.11.9",
+    "crypto-js": "3.3.0",
+    "elliptic": "^6.5.3"
+  },
+  "standardx": {
+    "parser": "babel-eslint",
+    "env": [
+      "mocha"
+    ]
+  }
+}
