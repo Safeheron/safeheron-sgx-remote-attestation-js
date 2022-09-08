@@ -1,7 +1,8 @@
-'use strict'
-import * as assert from "assert"
-import * as BN from "bn.js"
+'use strict';
+import * as assert from "assert";
+import * as BN from "bn.js";
 import {RemoteAttestor} from "..";
+import * as fs from 'fs';
 
 let report = '' +
     '{' +
@@ -26,19 +27,19 @@ let report = '' +
     '  "private_key_list" : ["8bab3e786c5e1ffd30dc475f62f3a5cb1aa0c5efe8ba2019e528c77ac2ba99bc", "a37359cf38aab6208599416a74e5fef293cbc3cb5e03a038e3ef37eb65ad1289", "2207e9e61ac486f2c01cfd926fe3f24252b36a68d40ce6bfdf3c5f2e5b72b7e8"]' +
     '}'
 
+let sgx_root_cert = fs.readFileSync('./data/Intel_SGX_Provisioning_Certification_RootCA.pem').toString();
+
 describe('SGX remote attestation:', async function () {
     it('remote attestation', async function () {
         console.time('attestation')
         try {
-
-            let attestor = new RemoteAttestor()
-            let success = attestor.verifyReport(report)
-            assert(success)
-            console.log(attestor.exportLog())
-
+            let attestor = new RemoteAttestor();
+            let success = attestor.verifyReport(report, sgx_root_cert);
+            assert(success);
+            console.log(attestor.exportLog());
         }catch (e) {
-            console.error(e)
+            console.error(e);
         }
-        console.timeEnd('attestation')
+        console.timeEnd('attestation');
     })
 })

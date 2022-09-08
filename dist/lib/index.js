@@ -9,6 +9,7 @@ const CryptoLib = require("crypto");
 const crypto_utils_1 = require("@safeheron/crypto-utils");
 const cryptoJS = require("crypto-js");
 const x509_1 = require("@fidm/x509");
+const fs = require("fs");
 class RemoteAttestor {
     constructor() {
         this.logInfo = "";
@@ -131,6 +132,7 @@ class RemoteAttestor {
         return this.sha256Digest(Buffer.concat([attest_public_key, auth_data]), 'hex');
     }
     verifyCertChain(tee_report_buffer) {
+        let data = fs.readFileSync('../data/Intel_SGX_Provisioning_Certification_RootCA.pem');
         // the offset of authentication data structure
         let auth_data_struct_offset = 0x3f4;
         // the size of authentication data
@@ -145,7 +147,7 @@ class RemoteAttestor {
         let k = 0;
         let u = 0;
         let tmp;
-        for (let t = 0; t < 3; t++) {
+        for (let t = 0; t < 2; t++) {
             tmp = certification_data.indexOf("-----END CERTIFICATE-----", k);
             keyCert[t] = certification_data.slice(u, tmp + cert_length);
             k = tmp + cert_length;
@@ -153,7 +155,7 @@ class RemoteAttestor {
         }
         const pck_cert = x509_1.Certificate.fromPEM(keyCert[0]);
         const processor_cert = x509_1.Certificate.fromPEM(keyCert[1]);
-        const sgx_root = x509_1.Certificate.fromPEM(keyCert[2]);
+        const sgx_root = x509_1.Certificate.fromPEM(data);
         // verify certification chain
         let result = processor_cert.checkSignature(pck_cert) == null &&
             sgx_root.checkSignature(processor_cert) == null &&
