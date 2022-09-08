@@ -1,8 +1,10 @@
+/// <reference types="node" />
+import { VerifyData } from "./interface";
+import { Buffer } from "buffer";
 export declare class RemoteAttestor {
     private logInfo;
-    private report;
     constructor();
-    verifyReport(report: string): boolean;
+    verifyReport(report: string | VerifyData, sgx_root_cert: string | Buffer): boolean;
     exportLog(): string;
     private appendLog;
     private sha256Digest;
