@@ -15,7 +15,7 @@ $ npm run test
 # Usage
 
 ## Input File
-[data.json](https://github.com/Safeheron/safeheron-sgx-remote-attestation-js/blob/main/data.json) is the input file that contains:
+[data.json](https://github.com/Safeheron/safeheron-sgx-remote-attestation-js/blob/main/data/data.json) is the input file that contains:
 * `tee_return_data` the callback return data from [sgx-arweave-cpp](https://github.com/Safeheron/sgx-arweave-cpp);
 * `private_key_list` the private key list that contains users' private key corresponding to the public keys in [user_public_key_list](https://github.com/Safeheron/sgx-arweave-cpp/tree/main#generation-request-details). You can fill into this list with private keys according to your generation request.
 
