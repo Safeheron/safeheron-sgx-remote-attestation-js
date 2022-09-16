@@ -60,7 +60,7 @@ As shown in the figure above, the contents needed to be verified are:
 
 - **PCK Cert**: Verify the issuer of PCK Cert, the signature and whether it has been revoked;
 - **Processor Cert**: Verify the issuer of Processor Cert, the signature and whether it has been revoked;
-- **SGX Root Cert**: Verify the issuer of SGX Root Cert, the signature and whether it has been revoked. [Intel_SGX_Provisioning_Certification_RootCA.pem](https://github.com/Safeheron/safeheron-sgx-remote-attestation-js/blob/main/data/Intel_SGX_Provisioning_Certification_RootCA.pem) is the SGX Root CA Certificate downloaded from [intel_sgx_root_ca](https://certificates.trustedservices.intel.com/Intel_SGX_Provisioning_Certification_RootCA.pem). you can substitute it with your download version;
+- **SGX Root Cert**: Verify the issuer of SGX Root Cert, the signature and whether it has been revoked. [Intel_SGX_Provisioning_Certification_RootCA.pem](https://github.com/Safeheron/safeheron-sgx-remote-attestation-js/blob/main/data/Intel_SGX_Provisioning_Certification_RootCA.pem) is the SGX Root CA Certificate downloaded from [intel_sgx_root_ca](https://certificates.trustedservices.intel.com/Intel_SGX_Provisioning_Certification_RootCA.pem). You can substitute it with your download version;
 
 3. Verify `Quote Signature`:
 
