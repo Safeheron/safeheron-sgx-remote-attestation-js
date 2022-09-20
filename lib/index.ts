@@ -35,11 +35,11 @@ export class RemoteAttestor {
         const json_pubkey_list_hash = json_data.pubkey_list_hash;
 
         // get User Data
-        let private_key_list = input_data.private_key_list;
-        const app_user_data = this.getAppReportHash(key_shard_pkg, json_pubkey_list_hash, private_key_list );
+        let private_key = input_data.private_key;
+        const app_user_data = this.getAppReportHash(key_shard_pkg, json_pubkey_list_hash, private_key);
         if (app_user_data == false){
             this.appendLog("Verify TEE Report failed!\n");
-            return
+            return false;
         }
         // verify TEE Report
         const result = this.verifyReportStepByStep(tee_report_buffer, app_user_data, Buffer.from(sgx_root_cert));
@@ -77,16 +77,13 @@ export class RemoteAttestor {
         return this.sha256Digest(Buffer.from(temp), 'hex');
     }
 
-    private genPubKey(private_key_list: []) {
-        let public_key_list = {};
+    private genKeyPairDict(private_key_list: string) {
+        let public_key_dict = {};
+        const pri = new BN(private_key_list, 16)
+        const pub = P256.g.mul(pri)
+        public_key_dict[pub.encode("hex")] = private_key_list;
 
-        // generate the public key according to the private key in "private_key_list"
-        private_key_list.forEach(key => {
-            const pri = new BN(key, 16)
-            const pub = P256.g.mul(pri)
-            public_key_list["04" + pub.getX().toString(16) + pub.getY().toString(16)] = pri.toString(16)
-        })
-        return public_key_list;
+        return public_key_dict;
     }
 
     // get the public key list hash
@@ -99,23 +96,30 @@ export class RemoteAttestor {
         return digest.toString(cryptoJS.enc.Hex);
     }
 
-    private getAppReportHash(key_shard_pkg, json_pubkey_list_hash, private_key_list ) {
+    private getAppReportHash(key_shard_pkg, json_pubkey_list_hash, private_key ) {
         let hashList = [];
-        let keyShard;
         let key_meta_hash;
-        let pubkey_list = this.genPubKey(private_key_list);
-
+        let plain_buffer;
+        let key_pair_dict = this.genKeyPairDict(private_key);
         // collect the public key
         for (let pkg_element in key_shard_pkg) {
-            keyShard = key_shard_pkg[pkg_element];
+            let keyShard = key_shard_pkg[pkg_element];
             hashList.push(keyShard.public_key);
         }
 
-        // 1. decrypt the value of 'encrypt_key_info' using the corresponding private key
-        // 2. parse the plain to a JSON object
-        let encrypt_key_info = Buffer.from(keyShard.encrypt_key_info.toString(), 'hex');
-        let pri_key = new BN(pubkey_list[keyShard.public_key], 16);
-        let plain_buffer = Buffer.from(ECIES.decryptBytes(pri_key, encrypt_key_info));
+        for (let pkg_element in key_shard_pkg) {
+            let keyShard = key_shard_pkg[pkg_element];
+            // 1. decrypt the value of 'encrypt_key_info' using the corresponding private key
+            // 2. parse the plain to a JSON object
+            let encrypt_key_info = Buffer.from(keyShard.encrypt_key_info.toString(), 'hex');
+            if(key_pair_dict[keyShard.public_key] == private_key){
+                let pri_key = new BN(key_pair_dict[keyShard.public_key], 16);
+                plain_buffer = Buffer.from(ECIES.decryptBytes(pri_key, encrypt_key_info));
+                break;
+            }
+            continue;
+        }
+
         const key_info = JSON.parse(plain_buffer.toString());
 
         // get key meta hash

@@ -4,7 +4,7 @@ export interface VerifyData{
         key_shard_pkg: KeyShardPKGItem[];
         tee_report: string
     },
-    private_key_list: string[]
+    private_key: string
 }
 
 interface KeyShardPKGItem{
