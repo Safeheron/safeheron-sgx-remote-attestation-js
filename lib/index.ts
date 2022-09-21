@@ -100,25 +100,22 @@ export class RemoteAttestor {
         let hashList = [];
         let key_meta_hash;
         let plain_buffer;
+        let index;
         let key_pair_dict = this.genKeyPairDict(private_key);
         // collect the public key
         for (let pkg_element in key_shard_pkg) {
             let keyShard = key_shard_pkg[pkg_element];
             hashList.push(keyShard.public_key);
+            if(key_pair_dict[keyShard.public_key] == private_key){
+                index = pkg_element;
+            }
         }
 
-        for (let pkg_element in key_shard_pkg) {
-            let keyShard = key_shard_pkg[pkg_element];
-            // 1. decrypt the value of 'encrypt_key_info' using the corresponding private key
-            // 2. parse the plain to a JSON object
-            let encrypt_key_info = Buffer.from(keyShard.encrypt_key_info.toString(), 'hex');
-            if(key_pair_dict[keyShard.public_key] == private_key){
-                let pri_key = new BN(key_pair_dict[keyShard.public_key], 16);
-                plain_buffer = Buffer.from(ECIES.decryptBytes(pri_key, encrypt_key_info));
-                break;
-            }
-            continue;
-        }
+        // 1. decrypt the value of 'encrypt_key_info' using the corresponding private key
+        // 2. parse the plain to a JSON object
+        let encrypt_key_info = Buffer.from(key_shard_pkg[index].encrypt_key_info.toString(), 'hex');
+        let pri_key = new BN(key_pair_dict[key_shard_pkg[index].public_key], 16);
+        plain_buffer = Buffer.from(ECIES.decryptBytes(pri_key, encrypt_key_info));
 
         const key_info = JSON.parse(plain_buffer.toString());
 
