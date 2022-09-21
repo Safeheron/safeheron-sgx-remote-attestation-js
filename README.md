@@ -25,7 +25,7 @@ if(success){
 ```
 
 ## Input File
-[data.json](https://github.com/Safeheron/safeheron-sgx-remote-attestation-js/blob/main/data/data.json) is the input file that contains:
+1. [data.json](https://github.com/Safeheron/safeheron-sgx-remote-attestation-js/blob/main/data/data.json) is the input file that contains:
 * `tee_return_data` the callback return data from [sgx-arweave-cpp](https://github.com/Safeheron/sgx-arweave-cpp);
 * `private_key` the private key corresponding to the one of public keys in [user_public_key_list](https://github.com/Safeheron/sgx-arweave-cpp/tree/main#generation-request-details). You can fill into this list with your private key according to your generation request.
 
@@ -55,6 +55,7 @@ The example is below:
 }
 ```
 
+2. [Intel_SGX_Provisioning_Certification_RootCA.pem](https://github.com/Safeheron/safeheron-sgx-remote-attestation-js/blob/main/data/Intel_SGX_Provisioning_Certification_RootCA.pem) is the SGX Root CA Certificate downloaded from [intel_sgx_root_ca](https://certificates.trustedservices.intel.com/Intel_SGX_Provisioning_Certification_RootCA.pem) which is used in the [cert chain verification](#process-of-verification). You can substitute it with your download version.
 # Run Locally
 
 ```shell
@@ -81,7 +82,7 @@ As shown in the figure above, the contents needed to be verified are:
 
 - **PCK Cert**: Verify the issuer of PCK Cert, the signature and whether it has been revoked;
 - **Processor Cert**: Verify the issuer of Processor Cert, the signature and whether it has been revoked;
-- **SGX Root Cert**: Verify the issuer of SGX Root Cert, the signature and whether it has been revoked. [Intel_SGX_Provisioning_Certification_RootCA.pem](https://github.com/Safeheron/safeheron-sgx-remote-attestation-js/blob/main/data/Intel_SGX_Provisioning_Certification_RootCA.pem) is the SGX Root CA Certificate downloaded from [intel_sgx_root_ca](https://certificates.trustedservices.intel.com/Intel_SGX_Provisioning_Certification_RootCA.pem). You can substitute it with your download version;
+- **SGX Root Cert**: Verify the issuer of SGX Root Cert, the signature and whether it has been revoked. 
 
 3. Verify `Quote Signature`:
 
