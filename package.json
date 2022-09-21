@@ -1,9 +1,11 @@
 {
-  "name": "safeheron-sgx-remote-attestation-js",
+  "name": "@safeheron/sgx-remote-attestation",
   "version": "0.0.1",
   "description": "A demo to give a verification of TEE report",
   "keywords": [
-    "Arweave"
+    "Arweave",
+    "safeheron",
+    "remote attestation"
   ],
   "homepage": "https://github.com/Safeheron/safeheron-sgx-remote-attestation-js",
   "bugs": {
@@ -13,12 +15,9 @@
     "type": "git",
     "url": "git@github.com:Safeheron/safeheron-sgx-remote-attestation-js.git"
   },
-  "license": "",
+  "main": "dist/index.js",
   "files": [
-    "lib/index.js",
-    "lib/interface.ts",
-    "data/data.json",
-    "data/Intel_SGX_Provisioning_Certification_RootCA.pem"
+    "dist/*"
   ],
   "browser": {
     "buffer": false
@@ -27,7 +26,7 @@
     "lint": "standardx",
     "prepublish": "npm run build",
     "build": "rm -fr ./dist && tsc -p tsconfig.json",
-    "test": "rm -fr ./test-dist && tsc -p tsconfig.test.json && mocha ./test-dist/*"
+    "test": "mocha"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",

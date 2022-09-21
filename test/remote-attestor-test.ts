@@ -17,7 +17,7 @@ describe('SGX remote attestation:', async function () {
             assert(success);
             console.log(attestor.exportLog());
         }catch (e) {
-            console.error(e);
+            throw e
         }
         console.timeEnd('attestation');
     })

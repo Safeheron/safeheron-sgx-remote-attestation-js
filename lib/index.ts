@@ -111,6 +111,10 @@ export class RemoteAttestor {
             }
         }
 
+        if(index === undefined){
+            throw new Error('Private key does not match.')
+        }
+
         // 1. decrypt the value of 'encrypt_key_info' using the corresponding private key
         // 2. parse the plain to a JSON object
         let encrypt_key_info = Buffer.from(key_shard_pkg[index].encrypt_key_info.toString(), 'hex');
