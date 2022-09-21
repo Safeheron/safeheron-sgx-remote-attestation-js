@@ -112,7 +112,7 @@ export class RemoteAttestor {
         }
 
         if(index === undefined){
-            throw new Error('Private key does not match.')
+            throw new Error('Private key does not match the encrypted message!')
         }
 
         // 1. decrypt the value of 'encrypt_key_info' using the corresponding private key
