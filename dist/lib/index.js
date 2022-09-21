@@ -31,7 +31,6 @@ class RemoteAttestor {
         const json_pubkey_list_hash = json_data.pubkey_list_hash;
         // get User Data
         let private_key = input_data.private_key;
-        console.log(private_key);
         const app_user_data = this.getAppReportHash(key_shard_pkg, json_pubkey_list_hash, private_key);
         if (app_user_data == false) {
             this.appendLog("Verify TEE Report failed!\n");
@@ -68,17 +67,12 @@ class RemoteAttestor {
         let temp = hash.replace(/,/g, "");
         return this.sha256Digest(buffer_1.Buffer.from(temp), 'hex');
     }
-    genPubKey(private_key_list) {
-        let public_key_list = {};
-        console.log(private_key_list);
-        // generate the public key according to the private key in "private_key_list"
-        // private_key_list.forEach(key => {
+    genKeyPairDict(private_key_list) {
+        let public_key_dict = {};
         const pri = new BN(private_key_list, 16);
         const pub = P256.g.mul(pri);
-        // public_key_list[pub.encode("hex")] = pri.toString(16);
-        public_key_list[pub.encode("hex")] = private_key_list;
-        // })
-        return public_key_list;
+        public_key_dict[pub.encode("hex")] = private_key_list;
+        return public_key_dict;
     }
     // get the public key list hash
     sha256DigestArray(messages) {
@@ -93,7 +87,7 @@ class RemoteAttestor {
         let hashList = [];
         let key_meta_hash;
         let plain_buffer;
-        let pubkey_list = this.genPubKey(private_key);
+        let key_pair_dict = this.genKeyPairDict(private_key);
         // collect the public key
         for (let pkg_element in key_shard_pkg) {
             let keyShard = key_shard_pkg[pkg_element];
@@ -104,8 +98,8 @@ class RemoteAttestor {
             // 1. decrypt the value of 'encrypt_key_info' using the corresponding private key
             // 2. parse the plain to a JSON object
             let encrypt_key_info = buffer_1.Buffer.from(keyShard.encrypt_key_info.toString(), 'hex');
-            if (pubkey_list[keyShard.public_key] == private_key) {
-                let pri_key = new BN(pubkey_list[keyShard.public_key], 16);
+            if (key_pair_dict[keyShard.public_key] == private_key) {
+                let pri_key = new BN(key_pair_dict[keyShard.public_key], 16);
                 plain_buffer = buffer_1.Buffer.from(crypto_ecies_1.ECIES.decryptBytes(pri_key, encrypt_key_info));
                 break;
             }

@@ -9,7 +9,7 @@ export declare class RemoteAttestor {
     private appendLog;
     private sha256Digest;
     private getKeyMetaHash;
-    private genPubKey;
+    private genKeyPairDict;
     private sha256DigestArray;
     private getAppReportHash;
     private getQeReportHash;
