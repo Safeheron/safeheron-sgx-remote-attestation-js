@@ -14,13 +14,18 @@ npm install @safeheron/sgx-remote-attestation
 ```
 
 ```javascript
-const reportDataJson = ''
-const sgx_root_cert = ''
+const { RemoteAttestor } = require('@safeheron/sgx-remote-attestation')
+const fs = require('fs')
+
+//Load data from input files
+const reportDataJson = JSON.stringify(DATA_JSON)
+const sgx_root_cert = fs.readFileSync('./cert.pem').toString()
 
 let attestor = new RemoteAttestor();
-let success = attestor.verifyReport(report_data_json, sgx_root_cert);
+let success = attestor.verifyReport(reportDataJson, sgx_root_cert);
 if(success){
-  console.log('Verify success')
+    console.log('Verify success, attestor logs: \n')
+    console.log(attestor.exportLog())
 }
 ```
 
